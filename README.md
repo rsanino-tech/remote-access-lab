@@ -1,57 +1,232 @@
 # SSH Remote Access Lab
 
-Practicing remote administration between an Ubuntu laptop and a macOS Mac mini using SSH.
+This project documents my first successful SSH connection from an Ubuntu laptop to a Mac mini.
 
-This lab documents a beginner-friendly remote access workflow using real terminal commands, basic network troubleshooting, and careful protection of sensitive information.
+The goal was simple:
 
----
+Learn how remote administration actually works instead of just reading about it.
 
-## Lab Objective
+What started as a basic SSH setup turned into a real troubleshooting session involving:
 
-The goal of this lab was to connect from a Linux laptop to a Mac mini over the local network using SSH.
+- incorrect IP addresses
+- connection timeouts
+- network testing
+- service verification
+- command-line troubleshooting
+- successful remote administration
 
-This helped practice:
-
-- SSH remote administration
-- client/server communication
-- IP-based connectivity testing
-- terminal-based troubleshooting
-- remote command execution
-- safe documentation habits
+This was my first time experiencing what it actually feels like to troubleshoot infrastructure problems step by step.
 
 ---
 
-## Lab Environment
+# Project Goal
 
-| Device | Role | Operating System |
-|---|---|---|
-| Ubuntu laptop | SSH client | Ubuntu Linux |
-| Mac mini | SSH server / remote host | macOS |
+I wanted to:
+
+- remotely access my Mac mini from my Ubuntu laptop
+- understand how SSH works
+- learn basic networking concepts hands-on
+- practice terminal usage
+- build confidence using Linux and networking tools
+
+Instead of watching another tutorial, I wanted to actually do it.
+
+---
+
+# Lab Setup
+
+| Device | Purpose |
+|---|---|
+| Ubuntu Laptop | SSH Client |
+| Mac mini | SSH Server |
+
+Connection flow:
 
 ```text
 Ubuntu Laptop  →  SSH  →  Mac mini
 ```
 
-Sensitive details such as usernames, internal IP addresses, hostnames, and SSH fingerprints should be redacted before screenshots are published.
+---
+
+# What I Did
+
+## Step 1: Enabled Remote Login on the Mac mini
+
+The Mac mini needed to accept SSH connections.
+
+I enabled:
+
+```text
+System Settings → General → Sharing → Remote Login
+```
+
+This allowed the Mac mini to function as an SSH server.
 
 ---
 
-## Technologies Used
+## Step 2: Found the Mac mini IP Address
 
-- SSH
-- Ubuntu Linux terminal
-- macOS terminal
-- ICMP / ping
-- TCP/IP networking
-- macOS Remote Login
+I located the local IP address of the Mac mini using:
+
+- macOS network settings
+- terminal commands
+
+This IP address would later be used for the SSH connection.
 
 ---
 
-## Commands Practiced
+## Step 3: First SSH Attempt Failed
+
+I attempted to connect from Ubuntu using:
 
 ```bash
-ping <redacted-ip>
-ssh <redacted-user>@<redacted-ip>
+ssh user@ip-address
+```
+
+The connection failed.
+
+At first I thought SSH itself was broken.
+
+It wasn’t.
+
+I had used the wrong IP address.
+
+---
+
+# The Mistake
+
+One of the biggest beginner mistakes I made was accidentally trying to connect to the router instead of the Mac mini.
+
+I confused:
+
+```text
+10.0.0.1
+```
+
+with the actual Mac mini IP address.
+
+This caused:
+
+- connection timeouts
+- confusion
+- failed SSH attempts
+
+At first it felt frustrating.
+
+But this ended up becoming the most important part of the project because I learned how troubleshooting actually works.
+
+---
+
+# How I Troubleshot It
+
+Instead of randomly guessing, I started verifying things one step at a time.
+
+## Tested Connectivity with Ping
+
+I used:
+
+```bash
+ping <target-ip>
+```
+
+to verify whether the Ubuntu laptop could even see the target device.
+
+Once I received replies, I knew:
+
+- the machines could communicate
+- the network itself was functioning
+- the issue was somewhere else
+
+---
+
+## Verified SSH Configuration
+
+I confirmed:
+
+- Remote Login was enabled
+- the Mac mini was reachable
+- the correct username was being used
+
+---
+
+## Corrected the IP Address
+
+After realizing I had the wrong IP address, I retried the SSH connection using the correct Mac mini IP.
+
+That changed everything.
+
+---
+
+# Successful SSH Connection
+
+Once the correct IP was used, the SSH session worked successfully.
+
+This was the command:
+
+```bash
+ssh user@correct-ip
+```
+
+After connecting, I verified the remote session using:
+
+```bash
+hostname
+whoami
+uptime
+pwd
+ls
+```
+
+This confirmed:
+
+- I was connected to the Mac mini
+- the Ubuntu laptop was acting as the SSH client
+- the Mac mini was acting as the SSH server
+
+---
+
+# Remote Administration Practice
+
+Once connected, I started interacting with the remote system.
+
+I created files and directories remotely:
+
+```bash
+mkdir homelab
+```
+
+```bash
+touch remote-test.txt
+```
+
+This was the moment the project really clicked for me.
+
+I realized:
+
+```text
+I was controlling another machine remotely through the terminal.
+```
+
+That completely changed how networking and Linux felt to me.
+
+---
+
+# Technologies Used
+
+- Ubuntu Linux
+- macOS
+- SSH
+- Terminal
+- TCP/IP Networking
+- ICMP / ping
+
+---
+
+# Commands Practiced
+
+```bash
+ping
+ssh
 hostname
 whoami
 uptime
@@ -63,96 +238,31 @@ touch
 
 ---
 
-## Lab Workflow
+# What I Learned
 
-### 1. Enabled Remote Login on macOS
+This project taught me:
 
-Remote Login was enabled on the Mac mini so it could accept SSH connections from another system on the same local network.
+- SSH is client/server based
+- troubleshooting matters more than memorization
+- incorrect IP addresses are a common real-world issue
+- ping helps verify connectivity
+- remote administration feels very different from local terminal usage
+- networking becomes easier to understand when practiced hands-on
 
-### 2. Identified the Mac mini IP Address
+Most importantly:
 
-The local IP address was found from macOS network settings and used as the SSH destination.
+I learned that making mistakes is part of infrastructure work.
 
-### 3. Tested Network Reachability
-
-The Ubuntu laptop used `ping` to confirm that the Mac mini was reachable on the local network.
-
-### 4. Connected with SSH
-
-The Ubuntu laptop initiated an SSH session to the Mac mini using the format:
-
-```bash
-ssh <user>@<host-ip>
-```
-
-### 5. Verified Remote Access
-
-Commands such as `hostname`, `whoami`, `uptime`, `pwd`, and `ls` were used to confirm that the terminal session was running on the remote Mac mini instead of the local Ubuntu laptop.
+The important part is learning how to isolate the problem and recover from it.
 
 ---
 
-## Screenshots
+# Next Steps
 
-Screenshots will be added after sensitive information is redacted.
+Next I want to:
 
-Recommended screenshot names:
-
-```text
-screenshots/
-├── 01-ping-connectivity.png
-├── 02-ssh-login-redacted.png
-├── 03-remote-host-verification.png
-├── 04-remote-command-output.png
-└── 05-remote-directory-creation.png
-```
-
----
-
-## What Should Be Redacted
-
-Before publishing screenshots, hide:
-
-- personal usernames
-- internal IP addresses
-- full device names
-- SSH fingerprints
-- home directory paths
-- public IP addresses
-- tokens, passwords, or key material
-
-Example redaction format:
-
-```text
-10.0.0.25 → 10.x.x.x
-personal-username → user
-Mac-mini.local → remote-host
-```
-
----
-
-## What I Learned
-
-- The Mac mini acted as the SSH server.
-- The Ubuntu laptop acted as the SSH client.
-- A successful ping confirmed network reachability.
-- SSH allowed terminal-based control of the remote machine.
-- Remote commands verified that the session was running on the Mac mini.
-- Real troubleshooting requires checking IP address, username, service status, and connection behavior.
-
----
-
-## Security Notes
-
-This lab was performed only on devices and networks I own or am authorized to access.
-
-SSH should not be exposed directly to the public internet without proper hardening. For remote access from outside the home network, a private VPN-style solution such as Tailscale is preferred over router port forwarding.
-
----
-
-## Next Steps
-
-- Add redacted screenshots
-- Add a command reference
-- Add a troubleshooting log
-- Test persistent remote sessions using `tmux`
-- Add Tailscale for secure remote access from outside the home network
+- add Tailscale for remote access outside my home
+- learn tmux for persistent sessions
+- remotely manage Ollama from Ubuntu
+- expand the homelab environment
+- continue building networking projects hands-on
